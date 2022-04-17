@@ -250,6 +250,7 @@ function App() {
                   onCardLike={handleCardLike}
                   cards={cards}
                 />
+                <Footer />
               </ProtectedRoute>
             }
           />
@@ -264,7 +265,6 @@ function App() {
             }
           ></Route>
         </Routes>
-        <Footer />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}

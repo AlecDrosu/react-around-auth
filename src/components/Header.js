@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Route, Navigate, Routes, Link } from "react-router-dom";
 import vector from "../images/Vector.svg";
 
 export default function Header({ onSignOut, email }) {
@@ -17,6 +17,22 @@ export default function Header({ onSignOut, email }) {
             <div className="header__email">
               <p className="header__email-text">{email}</p>
             </div>
+          }
+        ></Route>
+        <Route
+          path="/signup"
+          element={
+            <Link to="/signin" className="header__auth-link">
+              Log in
+            </Link>
+          }
+        ></Route>
+        <Route
+          path="/signin"
+          element={
+            <Link to="/signup" className="header__auth-link">
+              Sign up
+            </Link>
           }
         ></Route>
       </Routes>
