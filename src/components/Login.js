@@ -1,38 +1,17 @@
 // create the Login component, the component for user authorization with the necessary state variables
 import React from "react";
-import { Route, Navigate, Link } from "react-router-dom";
-import * as auth from "../auth";
+import { Link } from "react-router-dom";
+// import * as auth from "../auth";
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] =
-    React.useState(false);
-  const [tooltipStatus, setTooltipStatus] = React.useState("");
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
 
   const handleLogin = (e) => {
+    const userEmail = email;
+    const userPassword = password;
     e.preventDefault();
-    auth
-      .authorize(email, password)
-      .then((data) => {
-        if (data) {
-          setIsLoggedIn(true);
-          setEmail(data.email);
-          setPassword("");
-          setIsPopupWithConfirmOpen(false);
-          setTooltipStatus("");
-          setIsInfoTooltipOpen(false);
-        } else {
-          setIsPopupWithConfirmOpen(true);
-          setTooltipStatus("");
-          setIsInfoTooltipOpen(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    onLogin(userEmail, userPassword);
   };
 
   return (

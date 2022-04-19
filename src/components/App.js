@@ -13,6 +13,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
+import InfoTooltip from "./InfoTooltip";
 import * as auth from "../auth";
 
 function App() {
@@ -28,7 +29,6 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [email, setEmail] = React.useState("");
   const [tooltipStatus, setTooltipStatus] = React.useState("");
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -55,7 +55,6 @@ function App() {
       });
   }, []);
 
-  //   check for jwt when mounting app
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -64,7 +63,6 @@ function App() {
         .then((data) => {
           if (data) {
             setIsLoggedIn(true);
-            setEmail(data.email);
             navigate("/");
           } else {
             localStorage.removeItem("jwt");
@@ -174,13 +172,12 @@ function App() {
     navigate("/signin");
   };
 
-  const onLogin = ({ email, password }) => {
+  const onLogin = (email, password) => {
     auth
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
           setIsLoggedIn(true);
-          setEmail(email);
           localStorage.setItem("jwt", res.token);
           navigate("/");
         } else {
@@ -191,10 +188,11 @@ function App() {
       .catch((err) => {
         setTooltipStatus("fail");
         setIsInfoTooltipOpen(true);
+        console.log(err);
       });
   };
 
-  const onRegister = ({ email, password }) => {
+  const onRegister = (email, password) => {
     auth
       .register(email, password)
       .then((res) => {
@@ -210,6 +208,7 @@ function App() {
       .catch((err) => {
         setTooltipStatus("fail");
         setIsInfoTooltipOpen(true);
+        console.log(err);
       });
   };
 
@@ -219,6 +218,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsPopupWithConfirmOpen(false);
     setIsImagePopupOpen(false);
+    setIsInfoTooltipOpen(false);
   };
 
   React.useEffect(() => {
@@ -236,11 +236,13 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header email={email} onSignOut={onSignOut} />
+        <Header email={localStorage.email} onSignOut={onSignOut} />
         <Routes>
           <Route
+            exact
+            path="/"
             element={
-              <ProtectedRoute loggedIn={isLoggedIn} path="/" exact>
+              <ProtectedRoute loggedIn={isLoggedIn}>
                 <Main
                   onEditAvatarClick={handleEditAvatarClick}
                   onEditProfileClick={handleEditProfileClick}
@@ -250,7 +252,6 @@ function App() {
                   onCardLike={handleCardLike}
                   cards={cards}
                 />
-                <Footer />
               </ProtectedRoute>
             }
           />
@@ -265,6 +266,7 @@ function App() {
             }
           ></Route>
         </Routes>
+        <Footer loggedIn={isLoggedIn} />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
@@ -289,6 +291,11 @@ function App() {
           isOpen={isImagePopupOpen}
           card={selectedCard}
           onClose={closeAllPopups}
+        />
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+          status={tooltipStatus}
         />
       </CurrentUserContext.Provider>
     </div>
