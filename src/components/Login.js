@@ -1,7 +1,6 @@
-// create the Login component, the component for user authorization with the necessary state variables
+
 import React from "react";
 import { Link } from "react-router-dom";
-// import * as auth from "../auth";
 
 function Login({ onLogin }) {
   const [email, setEmail] = React.useState("");

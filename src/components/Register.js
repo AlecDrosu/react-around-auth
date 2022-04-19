@@ -1,15 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import * as auth from "../auth";
 
 function Register({ onRegister }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] =
-    React.useState(false);
-  const [tooltipStatus, setTooltipStatus] = React.useState("");
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
 
   const handleRegister = (e) => {
     const userEmail = email;
