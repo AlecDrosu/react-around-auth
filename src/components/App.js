@@ -14,7 +14,7 @@ import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import InfoTooltip from "./InfoTooltip";
-import * as auth from "../auth";
+import * as auth from "../utils/auth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =

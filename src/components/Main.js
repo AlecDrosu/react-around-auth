@@ -12,7 +12,7 @@ export default function Main(props) {
 					<div className='profile__image-box'>
 						<img
 							src={currentUser.avatar}
-							alt='Man in Hat'
+							alt={currentUser.name}
 							className='profile__avatar'
 						/>
 						<button
